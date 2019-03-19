@@ -53,7 +53,7 @@ void device_handle_request(const char *buf, void *cookie) {
         debug("ssize_t amount_written = write(fd, message + wrote, len - wrote);");
         debug("ssize_t amount_written = write(%d, %p + %d, %d - %d);", fd, message, wrote, len, wrote);
         if (amount_written < 0) {
-            if (errno == EINTR)
+            if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
                 continue;
 
             err(EXIT_FAILURE, "write");
